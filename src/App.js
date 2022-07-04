@@ -1,23 +1,22 @@
-import logo from './logo.svg';
 import './App.css';
+import TextComp from './Components/TextComp/TextComp';
+
+import matchMedia from './hoc/MatchMedia/MatchMedia';
+import device from './hoc/Device/Device';
 
 function App() {
+
+    const media = '(max-width: 600px)';
+    const whichDevice = 'isMobile';
+    const options = 'max width suitable';
+
+    const Comp = matchMedia(TextComp, media);
+    const Comp1 = device(Comp);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+        <Comp text="Tom" options={options}/>
+        <Comp1 text="John" device={whichDevice} options={options} />
     </div>
   );
 }
