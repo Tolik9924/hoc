@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 
-const matchMedia = (Comp, media) => {
+const matchMedia = (Comp, media = undefined) => {
+ 
 
     class MatchMedia extends Component {
 
+        showMedia = window.matchMedia(media).matches ? media : 'matchMedia';
+
         render() {
 
-            if (window.matchMedia(media).matches) {
-                console.log(this.props.options);
-            } else {
-                console.log("max width is not suitable");
-            }
-
-            return <Comp options={this.props.options} {...this.props} />;
+            return <Comp options={this.props.options} showMedia={this.showMedia} {...this.props} />;
         }
     }
 
