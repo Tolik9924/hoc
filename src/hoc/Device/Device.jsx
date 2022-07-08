@@ -2,45 +2,64 @@ import React, { Component } from 'react';
 
 const device = (Comp) => {
 
-    const parameter = {
-        isMobile: false,
-        isTablet: false,
-        isDesktop: false,
-        isPrinting: false
-    };
-
     class Device extends Component {
 
-        showDevice() {
-            if (this.props.width <= 600) {
-                parameter.isMobile = true;
+        state = {
+            isMobile: false,
+            isTablet: false,
+            isDesktop: false,
+            isPrinting: false
+        }
 
-                return parameter;
-            } else if (this.props.width > 600 && this.props.width <= 1200) {
-                parameter.isTablet = true;
+        innerWidth = window.innerWidth;
 
-                return parameter;
-            } else if (this.props.width > 1200 && this.props.width <= 1800) {
-                parameter.isDesktop = true;
-
-                return parameter;
-            } else if (this.props.width > 1800) {
-                parameter.isPrinting = true;
-
-                return parameter;
-            }
+        componentDidMount() {
+            window.addEventListener('resize', () => {
+                if (this.innerWidth <= 600) {
+                    this.setState({
+                        isMobile: 'isMobile',
+                        isTablet: false,
+                        isDesktop: false,
+                        isPrinting: false
+                    });
+                } else if (this.innerWidth  > 600 && this.innerWidth  <= 1200) {
+                    this.setState({
+                        isMobile: false,
+                        isTablet: 'isTablet',
+                        isDesktop: false,
+                        isPrinting: false
+                    });
+                } else if (this.innerWidth  > 1200 && this.innerWidth  <= 1800) {
+                    this.setState({
+                        isMobile: false,
+                        isTablet: false,
+                        isDesktop: true,
+                        isPrinting: false
+                    });
+                } else if (this.innerWidth  > 1800) {
+                    this.setState({
+                        isMobile: false,
+                        isTablet: false,
+                        isDesktop: false,
+                        isPrinting: 'isPrinting'
+                    });
+                }
+            });
         }
 
         render() {
-            console.log(this.showDevice());
             return <Comp {...this.props}
-                parameter={parameter}
-                options={this.props.options} />;
+                options={this.props.options} 
+                isMobile={this.state.isMobile}
+                isTablet={this.state.isTablet}
+                isDesktop={this.state.isDesktop}
+                isPrinting={this.state.isPrinting}/>;
+
         }
     }
 
-    Device.displayName = `Device(${Component.displayName ||
-        Component.name ||
+    Device.displayName = `Device(${Comp.displayName ||
+        Comp.name ||
         'Component'})`;
 
     return Device;
